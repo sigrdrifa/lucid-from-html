@@ -22,7 +22,7 @@ module Lucid.Combinators (
 )   where
 
 import "base" Control.Arrow ((&&&))
-import "base" Data.List (sort, sortBy, intersperse, intercalate)
+import "base" Data.List (sortBy, intersperse, intercalate)
 import "base" Data.Ord (comparing)
 import "directory" System.Directory (createDirectoryIfMissing)
 import "filepath" System.FilePath ((</>), (<.>))
@@ -46,8 +46,8 @@ data HtmlVariant = HtmlVariant
 instance Show HtmlVariant where
     show = map toLower . intercalate "-" . version
 
-main :: IO ()
-main = mapM_ (writeHtmlVariant . snd) $ M.toList htmlVariants
+printVariants :: IO ()
+printVariants = mapM_ (writeHtmlVariant . snd) $ M.toList htmlVariants
 
 -- | Get the full module name for an HTML variant.
 --
