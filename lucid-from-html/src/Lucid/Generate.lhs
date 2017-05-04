@@ -21,7 +21,7 @@ module Lucid.Generate (
 
 import "base" Control.Monad (forM_, when)
 import "base" Control.Applicative ((<$>))
-import "base" Data.List (stripPrefix)
+import "base" Data.List (stripPrefix, intercalate)
 import "base" Data.Maybe (listToMaybe, fromMaybe)
 import "base" Data.Char (toLower, isSpace)
 import "base" Control.Arrow (first)
@@ -181,12 +181,16 @@ fromHtml variant opts (Parent tag attrs inner) =
             else error $ "Tag " ++ tag ++ " is illegal in "
                                        ++ show variant
   where
-    combinator = sanitize tag ++ attributes'
-    attributes' = attrs >>= \(k, v) -> case k `elem` attributes variant of
-        True  -> " [ " ++ sanitize k ++ " " ++ show v ++ " ]"
+    combinator :: String
+    combinator = sanitize tag ++ attributes' attrs
+    attributes' :: Show a => [(String, a)] -> [Char]
+    attributes' [] = ""
+    attributes' xs =  (" [ " ++) . (++ " ]") . intercalate ", " . fmap displayAttr $ xs
+    displayAttr :: Show a => (String, a) -> String
+    displayAttr (k, v) = case k `elem` attributes variant of
+        True  -> sanitize k ++ " " ++ show v
         False -> case stripPrefix "data-" k of
-            Just prefix -> " ! "
-                        ++ "dataAttribute" ++ " "
+            Just prefix -> "data_" ++ " "
                         ++ show prefix
                         ++ " " ++ show v
             Nothing | ignore_ opts -> ""
