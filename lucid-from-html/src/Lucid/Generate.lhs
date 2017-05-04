@@ -1,24 +1,41 @@
--- | A module for conversion from HTML to BlazeHtml Haskell code.
+---
+title:  Generate Lucid code from html  
+author: David Baynard  
+date:   04 May 2017  
+fontfamily:   libertine
+csl:    chemical-engineering-science.csl
+link-citations: true
+abstract: |  
+    
+...
+
+```haskell
+{-# LANGUAGE PackageImports #-}
+
+-- | A module for conversion from HTML to Lucid Haskell code.
 --
-module Main where
 
-import Control.Monad (forM_, when)
-import Control.Applicative ((<$>))
-import Data.List (stripPrefix)
-import Data.Maybe (listToMaybe, fromMaybe)
-import Data.Char (toLower, isSpace)
-import Control.Arrow (first)
-import System.Environment (getArgs)
-import System.FilePath (dropExtension)
-import qualified Data.Map as M
-import System.Console.GetOpt
-import System.Exit
-import System.IO
+module Lucid.Generate (
+    module Lucid.Generate
+)   where
 
-import Text.HTML.TagSoup
+import "base" Control.Monad (forM_, when)
+import "base" Control.Applicative ((<$>))
+import "base" Data.List (stripPrefix)
+import "base" Data.Maybe (listToMaybe, fromMaybe)
+import "base" Data.Char (toLower, isSpace)
+import "base" Control.Arrow (first)
+import "base" System.Environment (getArgs)
+import "filepath" System.FilePath (dropExtension)
+import qualified "containers" Data.Map as M
+import "base" System.Console.GetOpt
+import "base" System.Exit
+import "base" System.IO
 
-import Util.Sanitize (sanitize)
-import Util.GenerateHtmlCombinators hiding (main)
+import "tagsoup" Text.HTML.TagSoup
+
+import Lucid.Sanitize (sanitize)
+import Lucid.Combinators hiding (main)
 
 -- | Simple type to represent attributes.
 --
@@ -119,7 +136,7 @@ joinHtmlDoctype (Block (Doctype : Parent "html" attrs inner : xs)) =
     Block $ Parent "docTypeHtml" attrs inner : xs
 joinHtmlDoctype x = x
 
--- | Produce the Blaze code from the HTML. The result is a list of lines.
+-- | Produce the Lucid code from the HTML. The result is a list of lines.
 --
 fromHtml :: HtmlVariant  -- ^ Used HTML variant
          -> Options      -- ^ Building options
@@ -164,9 +181,9 @@ fromHtml variant opts (Parent tag attrs inner) =
             else error $ "Tag " ++ tag ++ " is illegal in "
                                        ++ show variant
   where
-    combinator = qualifiedSanitize "H." tag ++ attributes'
+    combinator = sanitize tag ++ attributes'
     attributes' = attrs >>= \(k, v) -> case k `elem` attributes variant of
-        True  -> " ! " ++ qualifiedSanitize "A." k ++ " " ++ show v
+        True  -> " [ " ++ sanitize k ++ " " ++ show v ++ " ]"
         False -> case stripPrefix "data-" k of
             Just prefix -> " ! "
                         ++ "dataAttribute" ++ " "
@@ -176,10 +193,6 @@ fromHtml variant opts (Parent tag attrs inner) =
                     | otherwise  -> error $ "Attribute "
                                  ++ k ++ " is illegal in "
                                  ++ show variant
-
-    -- Qualifies a tag with the given qualifier if needed, and sanitizes it.
-    qualifiedSanitize qualifier tag' =
-        (if isNameClash variant tag' then qualifier else "") ++ sanitize tag'
 
     -- Check if we can drop the apply operator ($), for readability reasons.
     -- This would change:
@@ -200,30 +213,23 @@ getImports :: HtmlVariant -> [String]
 getImports variant =
     [ "{-# LANGUAGE OverloadedStrings #-}"
     , ""
-    , import_ "Prelude"
-    , qualify "Prelude" "P"
     , import_ "Data.Monoid (mempty)"
     , ""
     , import_ h
-    , qualify h "H"
-    , import_ a
-    , qualify a "A"
     ]
   where
     import_ = ("import " ++)
-    qualify name short = "import qualified " ++ name ++ " as " ++ short
     h = getModuleName variant
-    a = getAttributeModuleName variant
 
--- | Convert the HTML to blaze code.
+-- | Convert the HTML to lucid code.
 --
-blazeFromHtml :: HtmlVariant  -- ^ Variant to use
+lucidFromHtml :: HtmlVariant  -- ^ Variant to use
               -> Bool         -- ^ Produce standalone code
               -> Options      -- ^ Build options
               -> String       -- ^ Template name
               -> String       -- ^ HTML code
               -> String       -- ^ Resulting code
-blazeFromHtml variant standalone opts name =
+lucidFromHtml variant standalone opts name =
     unlines . addSignature . fromHtml variant opts
             . joinHtmlDoctype . minimizeBlocks
             . removeEmptyText . fst . makeTree variant (ignore_ opts) []
@@ -260,12 +266,12 @@ main = do
   where
     -- No files given, work with stdin
     main' variant standalone opts [] = interact $
-        blazeFromHtml variant standalone opts "template"
+        lucidFromHtml variant standalone opts "template"
 
     -- Handle all files
     main' variant standalone opts files = forM_ files $ \file -> do
         body <- readFile file
-        putStrLn $ blazeFromHtml variant standalone opts
+        putStrLn $ lucidFromHtml variant standalone opts
                                  (dropExtension file) body
 
     -- Print imports if needed
@@ -290,18 +296,18 @@ main = do
 --
 help :: String
 help = unlines $
-    [ "This is a tool to convert HTML code to BlazeHtml code. It is still"
+    [ "This is a tool to convert HTML code to LucidHtml code. It is still"
     , "experimental and the results might need to be edited manually."
     , ""
     , "USAGE"
     , ""
-    , "  blaze-from-html [OPTIONS...] [FILES ...]"
+    , "  lucid-from-html [OPTIONS...] [FILES ...]"
     , ""
     , "When no files are given, it works as a filter."
     , ""
     , "EXAMPLE"
     , ""
-    , "  blaze-from-html -v html4-strict index.html"
+    , "  lucid-from-html -v html4-strict index.html"
     , ""
     , "This converts the index.html file to Haskell code, writing to stdout."
     , ""
@@ -324,7 +330,7 @@ data Arg = ArgHtmlVariant HtmlVariant
          | ArgHelp
          deriving (Show, Eq)
 
--- | The options record passed to 'blazeFromHtml'
+-- | The options record passed to 'lucidFromHtml'
 --
 data Options = Options
              { ignore_     :: Bool -- ^ ignore errors
@@ -351,3 +357,4 @@ options =
 --
 defaultHtmlVariant :: HtmlVariant
 defaultHtmlVariant = html5
+```

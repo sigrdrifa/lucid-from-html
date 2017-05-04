@@ -1,4 +1,3 @@
-blaze-from-html
-===============
+# lucid-from-html
 
-This repository hosts the code to the `blaze-from-html` tool.
+This repository hosts the code to the `lucid-from-html` tool.
