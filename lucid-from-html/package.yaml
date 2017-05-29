@@ -1,5 +1,5 @@
 name: lucid-from-html
-version: '0.1.0.0'
+version: '0.1.0.1'
 synopsis: Tool to convert HTML to Lucid code.
 description: ! 'Tool that converts HTML files to Haskell code, ready to be
 
@@ -14,8 +14,11 @@ dependencies:
 - containers >=0.3
 - directory >=1.0
 - filepath >=1.1
+- markdown-unlit >= 0.4.0
 extra-source-files:
 - ../CHANGELOG.md
+- ../README.md
+ghc-options: -pgmL markdown-unlit
 library:
   exposed-modules:
   - Lucid.Generate
