@@ -9,13 +9,10 @@ module Lucid.Combinators (
     module Lucid.Combinators
 )   where
 
-import "base" Control.Arrow ((&&&))
 import "base" Data.List (sortBy, intersperse, intercalate)
 import "base" Data.Ord (comparing)
 import "directory" System.Directory (createDirectoryIfMissing)
 import "filepath" System.FilePath ((</>), (<.>))
-import "containers" Data.Map (Map)
-import qualified "containers" Data.Map as M
 import "base" Data.Char (toLower)
 
 import Lucid.Sanitize (sanitize)
@@ -294,23 +291,3 @@ html5 = HtmlVariant
     , selfClosing = False
     }
 
--- | XHTML 5.0
---
-xhtml5 :: HtmlVariant
-xhtml5 = HtmlVariant
-    { version = ["XHtml5"]
-    , docType = ["<!DOCTYPE HTML>"]
-    , parents = parents html5
-    , leafs = leafs html5
-    , attributes = attributes html5
-    , selfClosing = True
-    }
-
-
--- | A map of HTML variants, per version, lowercase.
--- Lucid only supports html5 and xhtml5.
-htmlVariants :: Map String HtmlVariant
-htmlVariants = M.fromList $ map (show &&& id)
-    [ html5
-    , xhtml5
-    ]
