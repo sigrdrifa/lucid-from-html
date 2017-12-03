@@ -34,9 +34,6 @@ data HtmlVariant = HtmlVariant
 instance Show HtmlVariant where
     show = map toLower . intercalate "-" . version
 
-printVariants :: IO ()
-printVariants = mapM_ (writeHtmlVariant . snd) $ M.toList htmlVariants
-
 -- | Get the full module name for an HTML variant.
 --
 getModuleName :: HtmlVariant -> String
@@ -131,7 +128,7 @@ makeDocType lines' = unlines
     , "-- Result:"
     , "--"
     , unlines (map ("-- > " ++) lines') ++ "--"
-    , "docType_ :: Html  -- ^ The document type HTML."
+    , "docType_ :: Html ()  -- ^ The document type HTML."
     , "docType_ = preEscapedText " ++ show (unlines lines')
     , "{-# INLINE docType_ #-}"
     ]
@@ -153,7 +150,7 @@ makeDocTypeHtml lines' = unlines
     , "--"
     , unlines (map ("-- > " ++) lines') ++ "-- > <html><span>foo</span></html>"
     , "--"
-    , "docTypeHtml_ :: Html  -- ^ Inner HTML."
+    , "docTypeHtml_ :: Html ()  -- ^ Inner HTML."
     , "             -> Html  -- ^ Resulting HTML."
     , "docTypeHtml_ inner = docType_ >> html_ inner"
     , "{-# INLINE docTypeHtml_ #-}"

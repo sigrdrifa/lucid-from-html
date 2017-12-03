@@ -110,20 +110,13 @@ combinatorType variant combinator
     | combinator `elem` leafs variant = LeafCombinator
     | otherwise = UnknownCombinator
 
--- | Create a special @<html>@ parent that includes the docype.
---
-joinHtmlDoctype :: Html -> Html
-joinHtmlDoctype (Block (Doctype : Parent "html" attrs inner : xs)) =
-    Block $ Parent "docTypeHtml" attrs inner : xs
-joinHtmlDoctype x = x
-
 -- | Produce the Lucid code from the HTML. The result is a list of lines.
 --
 fromHtml :: HtmlVariant  -- ^ Used HTML variant
          -> Options      -- ^ Building options
          -> Html         -- ^ HTML tree
          -> [String]     -- ^ Resulting lines of code
-fromHtml _ _ Doctype = ["docType"]
+fromHtml _ _ Doctype = ["doctype_"]
 fromHtml _ opts (Text text) = ["\"" ++ concatMap escape (trim text) ++ "\""]
   where
     -- Remove whitespace on both ends of a string
@@ -216,7 +209,7 @@ lucidFromHtml :: HtmlVariant  -- ^ Variant to use
               -> String       -- ^ Resulting code
 lucidFromHtml variant standalone opts name =
     unlines . addSignature . fromHtml variant opts
-            . joinHtmlDoctype . minimizeBlocks
+            . minimizeBlocks
             . removeEmptyText . fst . makeTree variant (ignore_ opts) []
             . parseTagsOptions parseOptions { optTagPosition = True }
   where
