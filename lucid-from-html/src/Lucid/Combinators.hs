@@ -1,15 +1,3 @@
----
-title:  Html combinators  
-author: David Baynard  
-date:   04 May 2017  
-fontfamily:   libertine
-csl:    chemical-engineering-science.csl
-link-citations: true
-abstract: |  
-    
-...
-
-```haskell
 {-# LANGUAGE PackageImports #-}
 {-# LANGUAGE CPP #-}
 
@@ -329,5 +317,3 @@ htmlVariants = M.fromList $ map (show &&& id)
     [ html5
     , xhtml5
     ]
-```
-

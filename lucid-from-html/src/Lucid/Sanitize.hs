@@ -1,15 +1,3 @@
----
-title:  Sanitize html input  
-author: David Baynard  
-date:   04 May 2017  
-fontfamily:   libertine
-csl:    chemical-engineering-science.csl
-link-citations: true
-abstract: |  
-    
-...
-
-```haskell
 {-# LANGUAGE PackageImports #-}
 
 -- | A program to sanitize an HTML tag to a Haskell function.
@@ -48,4 +36,3 @@ sanitize str
 
     appendUnderscore = (++ "_")
 
-```
