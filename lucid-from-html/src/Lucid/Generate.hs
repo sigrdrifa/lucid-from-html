@@ -105,6 +105,7 @@ minimizeBlocks x = x
 combinatorType :: HtmlVariant -> String -> CombinatorType
 combinatorType variant combinator
     | combinator == "docTypeHtml" = ParentCombinator
+    | combinator == "tt" = ParentCombinator
     | combinator `elem` parents variant = ParentCombinator
     | combinator `elem` leafs variant = LeafCombinator
     | otherwise = UnknownCombinator
@@ -143,7 +144,7 @@ fromHtml variant opts (Parent tag attrs inner) =
         ParentCombinator -> case inner of
             (Block ls) -> if null ls
                 then [combinator ++
-                        (if null attrs then " " else " $ ") ++ "mempty"]
+                        (if null attrs then " " else " $ ") ++ "\"\""]
                 else (combinator ++ " $ do") :
                         indent (fromHtml variant opts inner)
             -- We join non-block parents for better readability.
@@ -195,7 +196,7 @@ fromHtml variant opts (Parent tag attrs inner) =
 --
 getImports :: HtmlVariant -> [String]
 getImports variant =
-    [ "{-# LANGUAGE OverloadedStrings #-}"
+    [ "{-# LANGUAGE OverloadedStrings, ExtendedDefaultRules #-}"
     , ""
     , import_ "Data.Monoid (mempty)"
     , ""
@@ -219,7 +220,7 @@ lucidFromHtml variant standalone opts name =
             . removeEmptyText . fst . makeTree variant (ignore_ opts) []
             . parseTagsOptions parseOptions { optTagPosition = True }
   where
-    addSignature body = if standalone then [ name ++ " :: Html"
+    addSignature body = if standalone then [ name ++ " :: Html ()"
                                            , name ++ " = do"
                                            ] ++ indent body
                                       else body

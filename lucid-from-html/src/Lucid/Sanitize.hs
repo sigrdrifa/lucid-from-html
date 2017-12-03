@@ -19,7 +19,7 @@ import "base" Data.Char (toLower, toUpper)
 --
 sanitize :: String -> String
 sanitize str
-    | lower  == "doctypehtml" = "docTypeHtml_"
+    | lower == "tt" = "code_"
     | otherwise               = appendUnderscore $ removeDash lower
   where
     lower = map toLower str
