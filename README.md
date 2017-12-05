@@ -23,8 +23,6 @@ Please report any issues (including examples of html files that don’t parse co
 
 3.  Run
 
-        > stack install markdown-unlit
-
         > stack install
 
 # Run
