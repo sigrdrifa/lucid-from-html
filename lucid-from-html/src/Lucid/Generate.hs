@@ -190,23 +190,32 @@ getImports =
     , "import Lucid"
     ]
 
+-- | Produce the code for IO
+--
+getIOImports :: [String]
+getIOImports = 
+    [ "import System.IO (stdout)"
+    , "import qualified Data.Text.Lazy.IO as L"
+    , ""
+    , "main :: IO ()"
+    , "main = L.hPutStr stdout (renderText template1)"
+    ]
+
 -- | Convert the HTML to lucid code.
 --
-lucidFromHtml :: Bool         -- ^ Produce standalone code
-              -> Options      -- ^ Build options
+lucidFromHtml :: Options      -- ^ Build options
               -> String       -- ^ Template name
               -> String       -- ^ HTML code
               -> String       -- ^ Resulting code
-lucidFromHtml standalone opts name =
+lucidFromHtml opts name =
     unlines . addSignature . fromHtml opts
             . minimizeBlocks
             . removeEmptyText . fst . makeTree (ignore_ opts) []
             . parseTagsOptions parseOptions { optTagPosition = True }
   where
-    addSignature body = if standalone then [ name ++ " :: Html ()"
-                                           , name ++ " = do"
-                                           ] ++ indent body
-                                      else body
+    addSignature body = [ name ++ " :: Html ()"
+                        , name ++ " = do"
+                        ] ++ indent body
 
 -- | Indent block of code.
 --

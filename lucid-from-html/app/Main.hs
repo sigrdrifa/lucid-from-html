@@ -7,7 +7,7 @@ module Main (
 import "base" Control.Monad (forM_, when)
 import "base" Control.Applicative ((<$>))
 import "base" System.Environment (getArgs)
-import "filepath" System.FilePath (dropExtension)
+-- import "filepath" System.FilePath (takeFileName)
 import "base" System.Console.GetOpt
 import "base" System.Exit
 import "base" System.IO
@@ -25,26 +25,26 @@ main = do
         | not (null errs) -> do hPutStr stderr (concat errs)
                                 hPutStrLn stderr "use -h for usage help"
                                 exitFailure
-        | otherwise       -> let s = standalone' o
-                                 i = ignore' o
+        | otherwise       -> let i = ignore' o
                                  t = trim' o
                                  opts = Options i t
                              in do imports' o
-                                   main' s opts n
+                                   main' opts n
   where
     -- No files given, work with stdin
-    main' standalone opts [] = interact $
-        lucidFromHtml standalone opts "template"
+    main' opts [] = interact $
+        lucidFromHtml opts "template1"
 
     -- Handle all files
-    main' standalone opts files = forM_ files $ \file -> do
+    main' opts files = forM_ (zip files [1 .. (length files)]) $ \(file, num) -> do
         body <- readFile file
-        putStrLn $ lucidFromHtml standalone opts
-                                 (dropExtension file) body
+        putStrLn $ "-- Template for file: " ++ file
+        putStrLn $ lucidFromHtml opts
+                                 ("template" ++ (show num)) body
 
     -- Print imports if needed
     imports' opts = when (standalone' opts) $
-        putStrLn $ unlines $ getImports
+        putStrLn $ unlines $ getImports ++ getIOImports
 
     -- Should we produce standalone code?
     standalone' opts = ArgStandalone `elem` opts
