@@ -190,16 +190,36 @@ getImports =
     , "import Lucid"
     ]
 
+-- | Imports for extra functions
+--
+getExtraImports :: [String]
+getExtraImports =
+    [ "import Lucid.Base"
+    , "import Data.Text"
+    ]
+
 -- | Produce the code for IO
 --
 getIOImports :: [String]
 getIOImports = 
     [ "import System.IO (stdout)"
-    , "import qualified Data.Text.Lazy.IO as L"
+    , "import Data.Text.Lazy.IO as L"
     , ""
     , "main :: IO ()"
     , "main = L.hPutStr stdout (renderText template1)"
     ]
+
+-- | Functions to generate missed attributes
+--
+getExtraFunctions :: [String]
+getExtraFunctions =
+    [ "ariaHidden_ :: Text -> Attribute"
+    , "ariaHidden_ = makeAttribute \"aria-hidden\""
+    , ""
+    , "property_ :: Text -> Attribute"
+    , "property_ = makeAttribute \"property\""
+    ]
+
 
 -- | Convert the HTML to lucid code.
 --

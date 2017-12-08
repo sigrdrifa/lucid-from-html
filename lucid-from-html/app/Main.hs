@@ -44,7 +44,10 @@ main = do
 
     -- Print imports if needed
     imports' opts = when (standalone' opts) $
-        putStrLn $ unlines $ getImports ++ getIOImports
+        putStrLn $ unlines $ getImports 
+                              ++ getExtraImports
+                              ++ getIOImports ++ [""]
+                              ++ getExtraFunctions
 
     -- Should we produce standalone code?
     standalone' opts = ArgStandalone `elem` opts
