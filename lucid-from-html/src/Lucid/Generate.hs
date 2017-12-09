@@ -115,7 +115,12 @@ fromHtml :: Options      -- ^ Building options
          -> Html         -- ^ HTML tree
          -> [String]     -- ^ Resulting lines of code
 fromHtml _ Doctype = ["doctype_"]
-fromHtml opts (Text text) = ["\"" ++ concatMap escape (trim text) ++ "\""]
+fromHtml opts t
+  | (Text text) <- t
+    = ["\"" ++ concatMap escape (trim text) ++ "\""]
+  -- preserve comments as is
+  | (Comment comment) <- t
+    = ["toHtmlRaw  \"<!--" ++ concatMap escape comment ++ "-->\""]
   where
     -- Remove whitespace on both ends of a string
     trim
@@ -126,7 +131,7 @@ fromHtml opts (Text text) = ["\"" ++ concatMap escape (trim text) ++ "\""]
     escape '\n' = "\\n"
     escape '\\' = "\\\\"
     escape x    = [x]
-fromHtml _ (Comment comment) = map ("-- " ++) $ lines comment
+-- fromHtml _ (Comment comment) = map ("-- " ++) $ lines comment
 fromHtml opts (Block block) =
     concatMap (fromHtml opts) block
 fromHtml opts (Parent tag attrs inner) =
