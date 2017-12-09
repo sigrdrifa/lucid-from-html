@@ -155,7 +155,10 @@ fromHtml opts (Parent tag attrs inner) =
     combinator :: String
     combinator = sanitize tag ++ attributes' attrs
     attributes' :: Show a => [(String, a)] -> [Char]
-    attributes' [] = ""
+    -- hack for <br> that need attributes in Lucid
+    attributes' [] = if sanitize tag == "br_" 
+                       then " []"
+                       else ""
     attributes' xs =  (" [ " ++) . (++ " ]") . intercalate ", " . fmap displayAttr $ xs
     displayAttr :: Show a => (String, a) -> String
     displayAttr (k, v) = case k `elem` attributes html5 of
