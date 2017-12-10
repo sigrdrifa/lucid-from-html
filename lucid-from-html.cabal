@@ -19,8 +19,8 @@ build-type:    Simple
 cabal-version: >= 1.10
 
 extra-source-files:
-  ../CHANGELOG.md
-  ../README.md
+  CHANGELOG.md
+  README.md
 
 source-repository head
   type: git
