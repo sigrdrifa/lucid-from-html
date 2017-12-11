@@ -232,6 +232,9 @@ getExtraFunctions =
     , ""
     , "language_ :: Text -> Attribute"
     , "language_ = makeAttribute \"language\""
+    , ""
+    , "align_ :: Text -> Attribute"
+    , "align_ = makeAttribute \"align\""
     ]
 
 

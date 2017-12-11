@@ -257,6 +257,7 @@ html5 = HtmlVariant
         ]
     , attributes =
         [ "accept", "accept-charset", "accesskey", "action", "alt", "async"
+        , "align"
         , "aria-hidden"
         , "autocomplete", "autofocus", "autoplay", "challenge", "charset"
         , "checked", "cite", "class", "cols", "colspan", "content"
