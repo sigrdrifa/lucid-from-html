@@ -60,14 +60,17 @@ makeTree ignore stack (TagPosition row _ : x : xs) = case x of
     -- The closing tag must match the stack. If it is a closing leaf, we can
     -- ignore it
     TagClose tag ->
-        let isLeafCombinator = combinatorType tag == LeafCombinator
-            matchesStack = listToMaybe stack == Just (toLower' tag)
+        let tag' = toLower' tag
+            isLeafCombinator = combinatorType tag' == LeafCombinator
+            matchesStack = listToMaybe stack == Just tag'
         in case (isLeafCombinator, matchesStack, ignore) of
             -- It's a leaf combinator, don't care about this element
             (True, _, _)          -> makeTree ignore stack xs
             -- It's a parent and the stack doesn't match
             (False, False, False) -> error $
-                "Line " ++ show row ++ ": " ++ show tag ++ " closed but "
+                "Line " ++ show row ++ ": " ++ show tag 
+                        ++ " (" ++ show tag' ++ ")"
+                        ++ " closed but "
                         ++ show stack ++ " should be closed instead."
             -- Stack might not match but we ignore it anyway
             (False, _, _)         -> (Block [], xs)
@@ -226,6 +229,9 @@ getExtraFunctions =
     , ""
     , "property_ :: Text -> Attribute"
     , "property_ = makeAttribute \"property\""
+    , ""
+    , "language_ :: Text -> Attribute"
+    , "language_ = makeAttribute \"language\""
     ]
 
 

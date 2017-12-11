@@ -256,7 +256,8 @@ html5 = HtmlVariant
         , "link", "menuitem", "meta", "param", "source", "track", "wbr"
         ]
     , attributes =
-        [ "accept", "accept-charset", "accesskey", "action", "alt", "aria-hidden", "async"
+        [ "accept", "accept-charset", "accesskey", "action", "alt", "async"
+        , "aria-hidden"
         , "autocomplete", "autofocus", "autoplay", "challenge", "charset"
         , "checked", "cite", "class", "cols", "colspan", "content"
         , "contenteditable", "contextmenu", "controls", "coords", "data"
@@ -266,6 +267,7 @@ html5 = HtmlVariant
         , "hreflang", "http-equiv", "icon", "id", "ismap", "item", "itemprop"
         , "itemscope", "itemtype"
         , "keytype", "label", "lang", "list", "loop", "low", "manifest", "max"
+        , "language"
         , "maxlength", "media", "method", "min", "multiple", "name"
         , "novalidate", "onbeforeonload", "onbeforeprint", "onblur", "oncanplay"
         , "oncanplaythrough", "onchange", "oncontextmenu", "onclick"
@@ -281,7 +283,8 @@ html5 = HtmlVariant
         , "onseeked", "onseeking", "onselect", "onstalled", "onstorage"
         , "onsubmit", "onsuspend", "ontimeupdate", "onundo", "onunload"
         , "onvolumechange", "onwaiting", "open", "optimum", "pattern", "ping"
-        , "placeholder", "preload", "property", "pubdate", "radiogroup", "readonly"
+        , "placeholder", "preload", "pubdate", "radiogroup", "readonly"
+        , "property"
         , "rel", "required", "reversed", "rows", "rowspan", "sandbox", "scope"
         , "scoped", "seamless", "selected", "shape", "size", "sizes", "span"
         , "spellcheck", "src", "srcdoc", "start", "step", "style", "subject"
