@@ -236,9 +236,11 @@ getExtraFunctions =
     , "property_ :: Text -> Attribute"
     , "property_ = makeAttribute \"property\""
     , ""
+    ,"-- tag is deprecated"
     , "language_ :: Text -> Attribute"
     , "language_ = makeAttribute \"language\""
     , ""
+    , "-- tag is obsolete!"
     , "align_ :: Text -> Attribute"
     , "align_ = makeAttribute \"align\""
     ]
