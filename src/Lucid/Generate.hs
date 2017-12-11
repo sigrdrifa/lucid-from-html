@@ -171,7 +171,11 @@ fromHtml opts (Parent tag attrs inner) =
     attributes' xs =  (" [ " ++) . (++ " ]") . intercalate ", " . fmap displayAttr $ xs
     displayAttr :: Show a => (String, a) -> String
     displayAttr (k, v) = case k `elem` attributes html5 of
-        True  -> sanitize k ++ " " ++ show v
+        True  -> let k' = sanitize k 
+                 in case k' of 
+                        "autofocus_" -> k'
+                        "checked_" -> k'
+                        _ -> k' ++ " " ++ show v
         False -> case stripPrefix "data-" k of
             Just prefix -> "data_" ++ " "
                         ++ show prefix
