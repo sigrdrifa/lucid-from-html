@@ -132,6 +132,7 @@ fromHtml opts t
     -- Escape a number of characters
     escape '"'  = "\\\""
     escape '\n' = "\\n"
+    escape '\t' = "\\t"
     escape '\\' = "\\\\"
     escape x    = [x]
 -- fromHtml _ (Comment comment) = map ("-- " ++) $ lines comment
