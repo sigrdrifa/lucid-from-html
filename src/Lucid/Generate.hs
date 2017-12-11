@@ -130,6 +130,7 @@ fromHtml opts t
     escape '"'  = "\\\""
     escape '\n' = "\\n"
     escape '\t' = "\\t"
+    escape '\r' = "\\r"
     escape '\\' = "\\\\"
     escape x    = [x]
 -- fromHtml _ (Comment comment) = map ("-- " ++) $ lines comment
