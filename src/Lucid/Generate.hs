@@ -121,6 +121,8 @@ fromHtml _ Doctype = ["doctype_"]
 fromHtml opts t
   | (Text text) <- t
     = ["\"" ++ concatMap escape (trim text) ++ "\""]
+  --  experiment
+  --  = [show (trim text)]
   -- preserve comments as is
   | (Comment comment) <- t
     = ["toHtmlRaw  \"<!--" ++ concatMap escape comment ++ "-->\""]
@@ -166,7 +168,7 @@ fromHtml opts (Parent tag attrs inner) =
     combinator = sanitize tag ++ attributes' attrs
     attributes' :: Show a => [(String, a)] -> [Char]
     -- hack for <br> that need attributes in Lucid
-    attributes' [] = if sanitize tag == "br_" 
+    attributes' [] = if sanitize tag `elem` ["br_","hr_"] 
                        then " []"
                        else ""
     attributes' xs =  (" [ " ++) . (++ " ]") . intercalate ", " . fmap displayAttr $ xs
@@ -256,11 +258,16 @@ lucidFromHtml opts name =
     unlines . addSignature . fromHtml opts
             . minimizeBlocks
             . removeEmptyText . fst . makeTree (ignore_ opts) []
-            . parseTagsOptions parseOptions { optTagPosition = True }
+            . parseTagsOptions popts
   where
     addSignature body = [ name ++ " :: Html ()"
                         , name ++ " = do"
                         ] ++ indent body
+    -- popts :: ParseOptions String
+    popts = (parseOptionsEntities (const Nothing)){ optTagPosition = True }
+          -- (parseOptions :: ParseOptions String){ optTagPosition = True ,
+                          -- optEntityData = \(str,_) -> [TagText $ "&" ++ str ++ [';' | b]],
+                          -- optEntityAttrib = \(str,_) -> ("&" ++ str ++ [';' | b], []) }
 
 -- | Indent block of code.
 --
