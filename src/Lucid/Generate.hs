@@ -258,13 +258,13 @@ lucidFromHtml opts name =
     unlines . addSignature . fromHtml opts
             . minimizeBlocks
             . removeEmptyText . fst . makeTree (ignore_ opts) []
-            . parseTagsOptions popts
+            . parseTagsOptions parseOptions { optTagPosition = True}
   where
     addSignature body = [ name ++ " :: Html ()"
                         , name ++ " = do"
                         ] ++ indent body
     -- popts :: ParseOptions String
-    popts = (parseOptionsEntities (const Nothing)){ optTagPosition = True }
+    -- popts = (parseOptionsEntities (const Nothing)){ optTagPosition = True }
           -- (parseOptions :: ParseOptions String){ optTagPosition = True ,
                           -- optEntityData = \(str,_) -> [TagText $ "&" ++ str ++ [';' | b]],
                           -- optEntityAttrib = \(str,_) -> ("&" ++ str ++ [';' | b], []) }
