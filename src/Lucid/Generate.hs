@@ -9,7 +9,7 @@ module Lucid.Generate (
 
 import "base" Data.List (stripPrefix, intercalate)
 import "base" Data.Maybe (listToMaybe)
-import "base" Data.Char (toLower, isSpace)
+import "base" Data.Char (toLower, isSpace, showLitChar)
 import "base" Control.Arrow (first)
 
 import "tagsoup" Text.HTML.TagSoup
@@ -120,24 +120,27 @@ fromHtml :: Options      -- ^ Building options
 fromHtml _ Doctype = ["doctype_"]
 fromHtml opts t
   | (Text text) <- t
-    = ["\"" ++ concatMap escape (trim text) ++ "\""]
+    = ["\"" ++ foldr escape "" (trim text) ++ "\""]
   --  experiment
   --  = [show (trim text)]
   -- preserve comments as is
   | (Comment comment) <- t
-    = ["toHtmlRaw  \"<!--" ++ concatMap escape comment ++ "-->\""]
+    = ["toHtmlRaw  \"<!--" ++ foldr escape "" comment ++ "-->\""]
   where
     -- Remove whitespace on both ends of a string
     trim
       | noTrimText_ opts = id
       | otherwise        = reverse . dropWhile isSpace . reverse . dropWhile isSpace
     -- Escape a number of characters
-    escape '"'  = "\\\""
+    escape '"'  = showString "\\\""
+    escape x = showLitChar x
+    {-
     escape '\n' = "\\n"
     escape '\t' = "\\t"
     escape '\r' = "\\r"
     escape '\\' = "\\\\"
     escape x    = [x]
+    --}
 -- fromHtml _ (Comment comment) = map ("-- " ++) $ lines comment
 fromHtml opts (Block block) =
     concatMap (fromHtml opts) block
