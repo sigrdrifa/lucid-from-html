@@ -9,7 +9,7 @@ module Lucid.Generate (
 
 import "base" Data.List (stripPrefix, intercalate)
 import "base" Data.Maybe (listToMaybe)
-import "base" Data.Char (toLower, isSpace)
+import "base" Data.Char (toLower, isSpace, showLitChar)
 import "base" Control.Arrow (first)
 
 import "tagsoup" Text.HTML.TagSoup
@@ -60,14 +60,17 @@ makeTree ignore stack (TagPosition row _ : x : xs) = case x of
     -- The closing tag must match the stack. If it is a closing leaf, we can
     -- ignore it
     TagClose tag ->
-        let isLeafCombinator = combinatorType tag == LeafCombinator
-            matchesStack = listToMaybe stack == Just (toLower' tag)
+        let tag' = toLower' tag
+            isLeafCombinator = combinatorType tag' == LeafCombinator
+            matchesStack = listToMaybe stack == Just tag'
         in case (isLeafCombinator, matchesStack, ignore) of
             -- It's a leaf combinator, don't care about this element
             (True, _, _)          -> makeTree ignore stack xs
             -- It's a parent and the stack doesn't match
             (False, False, False) -> error $
-                "Line " ++ show row ++ ": " ++ show tag ++ " closed but "
+                "Line " ++ show row ++ ": " ++ show tag 
+                        ++ " (" ++ show tag' ++ ")"
+                        ++ " closed but "
                         ++ show stack ++ " should be closed instead."
             -- Stack might not match but we ignore it anyway
             (False, _, _)         -> (Block [], xs)
@@ -117,22 +120,27 @@ fromHtml :: Options      -- ^ Building options
 fromHtml _ Doctype = ["doctype_"]
 fromHtml opts t
   | (Text text) <- t
-    = ["\"" ++ concatMap escape (trim text) ++ "\""]
+    = ["\"" ++ foldr escape "" (trim text) ++ "\""]
+  --  experiment
+  --  = [show (trim text)]
   -- preserve comments as is
   | (Comment comment) <- t
-    = ["toHtmlRaw  \"<!--" ++ concatMap escape comment ++ "-->\""]
+    = ["toHtmlRaw  \"<!--" ++ foldr escape "" comment ++ "-->\""]
   where
     -- Remove whitespace on both ends of a string
     trim
       | noTrimText_ opts = id
       | otherwise        = reverse . dropWhile isSpace . reverse . dropWhile isSpace
     -- Escape a number of characters
-    escape '"'  = "\\\""
+    escape '"'  = showString "\\\""
+    escape x = showLitChar x
+    {-
     escape '\n' = "\\n"
     escape '\t' = "\\t"
     escape '\r' = "\\r"
     escape '\\' = "\\\\"
     escape x    = [x]
+    --}
 -- fromHtml _ (Comment comment) = map ("-- " ++) $ lines comment
 fromHtml opts (Block block) =
     concatMap (fromHtml opts) block
@@ -163,7 +171,7 @@ fromHtml opts (Parent tag attrs inner) =
     combinator = sanitize tag ++ attributes' attrs
     attributes' :: Show a => [(String, a)] -> [Char]
     -- hack for <br> that need attributes in Lucid
-    attributes' [] = if sanitize tag == "br_" 
+    attributes' [] = if sanitize tag `elem` ["br_","hr_"] 
                        then " []"
                        else ""
     attributes' xs =  (" [ " ++) . (++ " ]") . intercalate ", " . fmap displayAttr $ xs
@@ -232,6 +240,18 @@ getExtraFunctions =
     , ""
     , "property_ :: Text -> Attribute"
     , "property_ = makeAttribute \"property\""
+    , ""
+    , "-- this attribute is deprecated"
+    , "language_ :: Text -> Attribute"
+    , "language_ = makeAttribute \"language\""
+    , ""
+    , "-- this attribute is obsolete!"
+    , "align_ :: Text -> Attribute"
+    , "align_ = makeAttribute \"align\""
+    , ""
+    , "-- this tag is deprecated"
+    , "tt_ :: Term arg result => arg -> result"
+    , "tt_ = term \"tt\""
     ]
 
 
@@ -244,12 +264,19 @@ lucidFromHtml :: Options      -- ^ Build options
 lucidFromHtml opts name =
     unlines . addSignature . fromHtml opts
             . minimizeBlocks
-            . removeEmptyText . fst . makeTree (ignore_ opts) []
-            . parseTagsOptions parseOptions { optTagPosition = True }
+            -- . removeEmptyText   -- causes glueing of words, see bug #13 
+            . fst . makeTree (ignore_ opts) []
+            . canonicalizeTags
+            . parseTagsOptions parseOptions { optTagPosition = True}
   where
     addSignature body = [ name ++ " :: Html ()"
                         , name ++ " = do"
                         ] ++ indent body
+    -- popts :: ParseOptions String
+    -- popts = (parseOptionsEntities (const Nothing)){ optTagPosition = True }
+          -- (parseOptions :: ParseOptions String){ optTagPosition = True ,
+                          -- optEntityData = \(str,_) -> [TagText $ "&" ++ str ++ [';' | b]],
+                          -- optEntityAttrib = \(str,_) -> ("&" ++ str ++ [';' | b], []) }
 
 -- | Indent block of code.
 --

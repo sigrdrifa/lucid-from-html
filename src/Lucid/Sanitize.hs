@@ -19,8 +19,7 @@ import "base" Data.Char (toLower, toUpper)
 --
 sanitize :: String -> String
 sanitize str
-    | lower == "tt" = "code_"
-    | otherwise               = appendUnderscore $ removeDash lower
+    = appendUnderscore $ removeDash lower
   where
     lower = map toLower str
 

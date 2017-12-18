@@ -35,7 +35,7 @@ library
     containers >=0.3,
     directory >=1.0,
     filepath >=1.1,
-    tagsoup >=0.10
+    tagsoup >=0.14.2
   exposed-modules:
     Lucid.Generate
     Lucid.Sanitize
