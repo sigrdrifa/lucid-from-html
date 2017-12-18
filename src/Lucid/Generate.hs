@@ -241,13 +241,17 @@ getExtraFunctions =
     , "property_ :: Text -> Attribute"
     , "property_ = makeAttribute \"property\""
     , ""
-    ,"-- this attribute is deprecated"
+    , "-- this attribute is deprecated"
     , "language_ :: Text -> Attribute"
     , "language_ = makeAttribute \"language\""
     , ""
     , "-- this attribute is obsolete!"
     , "align_ :: Text -> Attribute"
     , "align_ = makeAttribute \"align\""
+    , ""
+    , "-- this tag is deprecated"
+    , "tt_ :: Term arg result => arg -> result"
+    , "tt_ = term \"tt\""
     ]
 
 
@@ -260,7 +264,8 @@ lucidFromHtml :: Options      -- ^ Build options
 lucidFromHtml opts name =
     unlines . addSignature . fromHtml opts
             . minimizeBlocks
-            . removeEmptyText . fst . makeTree (ignore_ opts) []
+            -- . removeEmptyText   -- causes glueing of words, see bug #13 
+            . fst . makeTree (ignore_ opts) []
             . canonicalizeTags
             . parseTagsOptions parseOptions { optTagPosition = True}
   where
