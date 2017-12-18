@@ -241,11 +241,11 @@ getExtraFunctions =
     , "property_ :: Text -> Attribute"
     , "property_ = makeAttribute \"property\""
     , ""
-    ,"-- tag is deprecated"
+    ,"-- this attribute is deprecated"
     , "language_ :: Text -> Attribute"
     , "language_ = makeAttribute \"language\""
     , ""
-    , "-- tag is obsolete!"
+    , "-- this attribute is obsolete!"
     , "align_ :: Text -> Attribute"
     , "align_ = makeAttribute \"align\""
     ]
@@ -261,6 +261,7 @@ lucidFromHtml opts name =
     unlines . addSignature . fromHtml opts
             . minimizeBlocks
             . removeEmptyText . fst . makeTree (ignore_ opts) []
+            . canonicalizeTags
             . parseTagsOptions parseOptions { optTagPosition = True}
   where
     addSignature body = [ name ++ " :: Html ()"
