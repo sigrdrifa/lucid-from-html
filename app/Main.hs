@@ -13,6 +13,7 @@ import "base" System.Exit
 import "base" System.IO
 
 import Lucid.Generate
+import Lucid.Combinators
 
 -- | Main function
 --
@@ -33,21 +34,19 @@ main = do
   where
     -- No files given, work with stdin
     main' opts [] = interact $
-        lucidFromHtml opts "template1"
+        lucidFromHtml html5S opts "template1"
 
     -- Handle all files
     main' opts files = forM_ (zip files [1 .. (length files)]) $ \(file, num) -> do
         body <- readFile file
         putStrLn $ "-- Template for file: " ++ file
-        putStrLn $ lucidFromHtml opts
+        putStrLn $ lucidFromHtml html5S opts
                                  ("template" ++ (show num)) body
 
     -- Print imports if needed
     imports' opts = when (standalone' opts) $
         putStrLn $ unlines $ getImports 
-                              ++ getExtraImports
-                              ++ getIOImports ++ [""]
-                              ++ getExtraFunctions
+                              ++ getIOImports
 
     -- Should we produce standalone code?
     standalone' opts = ArgStandalone `elem` opts
