@@ -16,7 +16,6 @@ import "tagsoup" Text.HTML.TagSoup
 
 import Lucid.Sanitize (sanitize)
 import Lucid.Combinators
-import Lucid.Supplemental
 
 -- | Simple type to represent attributes.
 --
@@ -109,7 +108,6 @@ minimizeBlocks x = x
 combinatorType :: HtmlVariant -> String -> CombinatorType
 combinatorType variant combinator
     | combinator == "docTypeHtml" = ParentCombinator
-    | combinator == "tt" = ParentCombinator
     | combinator `elem` parents variant = ParentCombinator
     | combinator `elem` leafs variant = LeafCombinator
     | otherwise = UnknownCombinator
@@ -172,7 +170,7 @@ fromHtml variant opts (Parent tag attrs inner) =
     combinator :: String
     combinator = sanitize tag ++ attributes' attrs
     attributes' :: Show a => [(String, a)] -> [Char]
-    -- hack for <br> that need attributes in Lucid
+    -- hack for <br> that needs attributes in Lucid
     attributes' [] = if sanitize tag `elem` ["br_","hr_"] 
                        then " []"
                        else ""
