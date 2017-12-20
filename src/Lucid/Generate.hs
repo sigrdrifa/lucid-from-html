@@ -14,7 +14,7 @@ import "base" Control.Arrow (first)
 
 import "tagsoup" Text.HTML.TagSoup
 
-import Lucid.Sanitize (sanitize)
+import Lucid.Sanitize (sanitize, lowerize)
 import Lucid.Combinators
 
 -- | Simple type to represent attributes.
@@ -50,18 +50,18 @@ makeTree _ ignore stack []
     | null stack || ignore = (Block [], [])
     | otherwise = error $ "Error: tags left open at the end: " ++ show stack
 makeTree variant ignore stack (TagPosition row _ : x : xs) = case x of
-    TagOpen tag attrs -> if toLower' tag == "!doctype"
+    TagOpen tag attrs -> if lowerize tag == "!doctype"
         then addHtml Doctype xs
-        else let tag' = toLower' tag
+        else let tag' = lowerize tag
                  (inner, t) = case combinatorType variant tag' of
                     LeafCombinator -> (Block [], xs)
                     _ -> makeTree variant ignore (tag' : stack) xs
-                 p = Parent tag' (map (first toLower') attrs) inner
+                 p = Parent tag' (map (first lowerize) attrs) inner
              in addHtml p t
     -- The closing tag must match the stack. If it is a closing leaf, we can
     -- ignore it
     TagClose tag ->
-        let tag' = toLower' tag
+        let tag' = lowerize tag
             isLeafCombinator = combinatorType variant tag' == LeafCombinator
             matchesStack = listToMaybe stack == Just tag'
         in case (isLeafCombinator, matchesStack, ignore) of
@@ -82,7 +82,6 @@ makeTree variant ignore stack (TagPosition row _ : x : xs) = case x of
     addHtml html xs' = let (Block l, r) = makeTree variant ignore stack xs'
                        in (Block (html : l), r)
 
-    toLower' = map toLower
 makeTree _ _ _ _ = error "TagSoup error"
 
 -- | Remove empty text from the HTML.
@@ -164,7 +163,7 @@ fromHtml variant opts (Parent tag attrs inner) =
         -- Unknown tag
         UnknownCombinator -> if ignore_ opts
             then fromHtml variant opts inner
-            else error $ "Tag " ++ tag ++ " is illegal in "
+            else error $ "Tag '" ++ tag ++ "' is illegal in "
                          ++ show variant
   where
     combinator :: String
@@ -187,8 +186,8 @@ fromHtml variant opts (Parent tag attrs inner) =
                         ++ show prefix
                         ++ " " ++ show v
             Nothing | ignore_ opts -> ""
-                    | otherwise  -> error $ "Attribute "
-                                 ++ k ++ " is illegal in "
+                    | otherwise  -> error $ "Attribute '"
+                                 ++ k ++ "' is illegal in "
                                  ++ show variant
 
     -- Check if we can drop the apply operator ($), for readability reasons.
@@ -239,7 +238,7 @@ lucidFromHtml variant opts name =
             . minimizeBlocks
             -- . removeEmptyText   -- causes glueing of words, see bug #13 
             . fst . makeTree variant (ignore_ opts) []
-            . canonicalizeTags
+            -- . canonicalizeTags
             . parseTagsOptions parseOptions { optTagPosition = True}
   where
     addSignature body = [ name ++ " :: Html ()"

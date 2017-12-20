@@ -294,8 +294,13 @@ html5 = HtmlVariant
 
 
 html5S :: HtmlVariant
-html5S = html5 { parents = parents html5 ++ S.parentElements
+html5S = html5 { version = ["html5","with","supplements"]
+               , parents = parents html5 ++ S.parentElements
                , leafs = leafs html5 ++ S.leafElements
                , attributes = attributes html5 ++ S.attributeElements
                }
 
+html5SSan = html5 { parents = map sanitize (parents html5S)
+                  , leafs = map sanitize (leafs html5S)
+                  , attributes = map sanitize (attributes html5S)
+                  }
