@@ -9,7 +9,7 @@ module Lucid.Generate (
 
 import "base" Data.List (stripPrefix, intercalate)
 import "base" Data.Maybe (listToMaybe)
-import "base" Data.Char (toLower, isSpace, showLitChar)
+import "base" Data.Char (isSpace, showLitChar)
 import "base" Control.Arrow (first)
 
 import "tagsoup" Text.HTML.TagSoup

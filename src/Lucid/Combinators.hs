@@ -300,7 +300,11 @@ html5S = html5 { version = ["html5","with","supplements"]
                , attributes = attributes html5 ++ S.attributeElements
                }
 
+{- experiment for replacing tags by Lucid functions
+
+html5SSan :: HtmlVariant  
 html5SSan = html5 { parents = map sanitize (parents html5S)
                   , leafs = map sanitize (leafs html5S)
                   , attributes = map sanitize (attributes html5S)
                   }
+-}

@@ -70,9 +70,6 @@ align_ = makeAttribute "align"
 
 ------------ Svg attributes, remove when fix !!!! -----
 
--- | The @id@ attribute for svg.
-id_ :: Text -> Attribute
-id_ = makeAttribute "id"
 
 -- | The @version@ attribute for svg.
 version_ :: Text -> Attribute
@@ -104,7 +101,7 @@ viewBox_ = makeAttribute "viewBox"
 
 svgAttrs :: [String]
 svgAttrs = 
-  [ "id", "version", "x", "y", "xmlns:xlink", "xml:space"
+  [ "version", "x", "y", "xmlns:xlink", "xml:space"
   , "enable-background" ] 
 
 svgCamelCaseAttrs :: [String]
