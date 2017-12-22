@@ -1,5 +1,4 @@
 This repository hosts the code to the `lucid-from-html` tool, derived from [@dbaynard](https://github.com/dbaynard/lucid-from-html/).
-Some examples work, but test suite is in a plan.
 
 Please report any issues (including examples of html files that don’t parse correctly) at the [issue tracker](https://github.com/alogic0/lucid-from-html/issues).
 
