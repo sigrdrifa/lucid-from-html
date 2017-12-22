@@ -260,7 +260,7 @@ html5 = HtmlVariant
         [ "accept", "accept-charset", "accesskey", "action", "alt", "async"
         , "autocomplete", "autofocus", "autoplay", "challenge", "charset"
         , "checked", "cite", "class", "cols", "colspan", "content"
-        , "contenteditable", "contextmenu", "controls", "coords", "data"
+        , "contenteditable", "contextmenu", "controls", "coords", "crossorigin", "data"
         , "datetime", "defer", "dir", "disabled", "draggable", "enctype", "for"
         , "form", "formaction", "formenctype", "formmethod", "formnovalidate"
         , "formtarget", "headers", "height", "hidden", "high", "href"
