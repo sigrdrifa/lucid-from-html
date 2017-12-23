@@ -25,6 +25,7 @@ attributeElements :: [String]
 attributeElements =
   [ "aria-hidden", "color"
   , "aria-label", "autocapitalize"
+  , "aria-expanded", "aria-haspopup"
   , "property"
   , "language"
   , "align", "role"
@@ -50,6 +51,14 @@ svg_ = termRaw "svg"
 
 ------ Attributes --------------------------
 --------------------------------------------
+
+-- | The @aria-expanded@ attribute
+ariaExpanded_ :: Text -> Attribute
+ariaExpanded_ = makeAttribute "aria-expanded"
+
+-- | The @aria-haspopup@ attribute
+ariaHaspopup_ :: Text -> Attribute
+ariaHaspopup_ = makeAttribute "aria-haspopup"
 
 -- | The @aria-hidden@ attribute
 ariaHidden_ :: Text -> Attribute
