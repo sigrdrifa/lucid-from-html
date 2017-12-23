@@ -18,7 +18,7 @@ parentElements =
 
 -- | leaf tags
 leafElements :: [String]
-leafElements = []
+leafElements = ["relative-time", "time-until"]
 
 -- | attributes
 attributeElements :: [String]
@@ -39,6 +39,14 @@ attributeElements =
 -- | @\<tt\>@ tag, deprecated
 tt_ :: Term arg result => arg -> result
 tt_ = term "tt"
+
+-- | @\<relative-time\>@ tag, from GitHub
+relativeTime_ :: Monad m => [Attribute] -> HtmlT m ()
+relativeTime_ = with (makeElementNoEnd "relative-time")
+
+-- | @time-until@ element
+timeUntil_ :: Monad m => [Attribute] -> HtmlT m ()
+timeUntil_ = with (makeElementNoEnd "time-until")
 
 -- here is hack for <svg> tag
 -- | @\<svg\>@ tag.
@@ -146,5 +154,12 @@ genSvgAttribs =
   . map (\str -> ["-- | The @" ++ str ++ "@ attribute for svg."
                  , sanitize str ++ " :: Text -> Attribute"
                  , sanitize str ++ " = makeAttribute " ++ show str])
+
+genTag1 :: [String] -> IO ()
+genTag1 =
+  putStr . unlines . map unlines 
+  . map (\str -> ["-- | @" ++ str ++ "@ element"
+                 , sanitize str ++ " :: Monad m => [Attribute] -> HtmlT m ()"
+                 , sanitize str ++ " = with (makeElementNoEnd " ++ show str ++ ")"])
 
 -}
