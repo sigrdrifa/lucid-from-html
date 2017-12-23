@@ -29,6 +29,7 @@ attributeElements =
   [ "aria-hidden", "color"
   , "aria-label", "autocapitalize"
   , "aria-expanded", "aria-haspopup"
+  , "aria-labelledby", "aria-describedby"
   , "property"
   , "language"
   , "align", "role"
@@ -88,6 +89,14 @@ ariaHidden_ = makeAttribute "aria-hidden"
 -- | The @aria-label@ attribute for svg.
 ariaLabel_ :: Text -> Attribute
 ariaLabel_ = makeAttribute "aria-label"
+
+-- | The @aria-labelledby@ attribute for svg.
+ariaLabelledby_ :: Text -> Attribute
+ariaLabelledby_ = makeAttribute "aria-labelledby"
+
+-- | The @aria-describedby@ attribute for svg.
+ariaDescribedby_ :: Text -> Attribute
+ariaDescribedby_ = makeAttribute "aria-describedby"
 
 -- | The @autocapitalize@ attribute
 autocapitalize_ :: Text -> Attribute
