@@ -106,3 +106,18 @@ svgAttrs =
 
 svgCamelCaseAttrs :: [String]
 svgCamelCaseAttrs = ["viewBox"]
+
+{-
+-- | Generates code for a list of HTML attributes
+--
+-- >>> genSvgAttribs ["xmlns:dc", "xmlns:sodipodi"]
+
+import Lucid.Sanitize
+genSvgAttribs :: [String] -> IO ()
+genSvgAttribs = 
+  putStr . unlines . map unlines 
+  . map (\str -> ["-- | The @" ++ str ++ "@ attribute for svg."
+                 , sanitize str ++ " :: Text -> Attribute"
+                 , sanitize str ++ " = makeAttribute " ++ show str])
+
+-}
