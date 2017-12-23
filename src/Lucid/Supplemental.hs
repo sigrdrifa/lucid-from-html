@@ -33,6 +33,7 @@ attributeElements =
   , "property"
   , "language"
   , "align"
+  , "itemscope"
   , "itemtype"
   ]
 -- hack for svg
@@ -106,6 +107,10 @@ autocapitalize_ = makeAttribute "autocapitalize"
 -- | The @color@ attribute
 color_ :: Text -> Attribute
 color_ = makeAttribute "color"
+
+-- | The @itemscope@ attribute
+itemscope_ :: Text -> Attribute
+itemscope_ = makeAttribute "itemscope"
 
 -- | The @itemtype@ attribute
 itemtype_ :: Text -> Attribute
