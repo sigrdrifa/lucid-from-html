@@ -18,7 +18,10 @@ parentElements =
 
 -- | leaf tags
 leafElements :: [String]
-leafElements = ["relative-time", "time-until"]
+leafElements = 
+  [ "relative-time", "time-until"
+  , "time-ago", "local-time"
+  ]
 
 -- | attributes
 attributeElements :: [String]
@@ -47,6 +50,16 @@ relativeTime_ = with (makeElementNoEnd "relative-time")
 -- | @time-until@ element
 timeUntil_ :: Monad m => [Attribute] -> HtmlT m ()
 timeUntil_ = with (makeElementNoEnd "time-until")
+
+-- | @time-ago@ element
+timeAgo_ :: Monad m => [Attribute] -> HtmlT m ()
+timeAgo_ = with (makeElementNoEnd "time-ago")
+
+-- | @local-time@ element
+localTime_ :: Monad m => [Attribute] -> HtmlT m ()
+localTime_ = with (makeElementNoEnd "local-time")
+
+
 
 -- here is hack for <svg> tag
 -- | @\<svg\>@ tag.
