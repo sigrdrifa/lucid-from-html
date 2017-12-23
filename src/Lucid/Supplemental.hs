@@ -24,6 +24,7 @@ leafElements = []
 attributeElements :: [String]
 attributeElements =
   [ "aria-hidden", "color"
+  , "aria-label", "autocapitalize"
   , "property"
   , "language"
   , "align", "role"
@@ -53,6 +54,14 @@ svg_ = termRaw "svg"
 -- | The @aria-hidden@ attribute
 ariaHidden_ :: Text -> Attribute
 ariaHidden_ = makeAttribute "aria-hidden"
+
+-- | The @aria-label@ attribute for svg.
+ariaLabel_ :: Text -> Attribute
+ariaLabel_ = makeAttribute "aria-label"
+
+-- | The @autocapitalize@ attribute
+autocapitalize_ :: Text -> Attribute
+autocapitalize_ = makeAttribute "autocapitalize"
 
 -- | The @color@ attribute
 color_ :: Text -> Attribute
