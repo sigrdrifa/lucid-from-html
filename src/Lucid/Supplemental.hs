@@ -23,7 +23,7 @@ leafElements = []
 -- | attributes
 attributeElements :: [String]
 attributeElements =
-  [ "aria-hidden"
+  [ "aria-hidden", "color"
   , "property"
   , "language"
   , "align"
@@ -53,6 +53,10 @@ svg_ = termRaw "svg"
 -- | The @aria-hidden@ attribute
 ariaHidden_ :: Text -> Attribute
 ariaHidden_ = makeAttribute "aria-hidden"
+
+-- | The @color@ attribute
+color_ :: Text -> Attribute
+color_ = makeAttribute "color"
 
 -- | The @property@ attribute
 property_ :: Text -> Attribute
