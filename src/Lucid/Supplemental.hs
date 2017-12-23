@@ -33,6 +33,7 @@ attributeElements =
   , "property"
   , "language"
   , "align"
+  , "itemtype"
   ]
 -- hack for svg
   ++ svgAttrs ++ svgCamelCaseAttrs
@@ -106,6 +107,10 @@ autocapitalize_ = makeAttribute "autocapitalize"
 color_ :: Text -> Attribute
 color_ = makeAttribute "color"
 
+-- | The @itemtype@ attribute
+itemtype_ :: Text -> Attribute
+itemtype_ = makeAttribute "itemtype"
+
 -- | The @property@ attribute
 property_ :: Text -> Attribute
 property_ = makeAttribute "property"
@@ -165,12 +170,14 @@ svgCamelCaseAttrs = ["viewBox"]
 -- >>> genSvgAttribs ["xmlns:dc", "xmlns:sodipodi"]
 
 import Lucid.Sanitize
-genSvgAttribs :: [String] -> IO ()
-genSvgAttribs = 
+
+genAttr :: [String] -> IO ()
+genAttr = 
   putStr . unlines . map unlines 
-  . map (\str -> ["-- | The @" ++ str ++ "@ attribute for svg."
+  . map (\str -> ["-- | The @" ++ str ++ "@ attribute"
                  , sanitize str ++ " :: Text -> Attribute"
                  , sanitize str ++ " = makeAttribute " ++ show str])
+
 
 genTag1 :: [String] -> IO ()
 genTag1 =
@@ -178,5 +185,12 @@ genTag1 =
   . map (\str -> ["-- | @" ++ str ++ "@ element"
                  , sanitize str ++ " :: Monad m => [Attribute] -> HtmlT m ()"
                  , sanitize str ++ " = with (makeElementNoEnd " ++ show str ++ ")"])
+
+genSvgAttribs :: [String] -> IO ()
+genSvgAttribs = 
+  putStr . unlines . map unlines 
+  . map (\str -> ["-- | The @" ++ str ++ "@ attribute for svg."
+                 , sanitize str ++ " :: Text -> Attribute"
+                 , sanitize str ++ " = makeAttribute " ++ show str])
 
 -}
