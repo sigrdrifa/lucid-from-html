@@ -284,6 +284,7 @@ html5 = HtmlVariant
         , "onvolumechange", "onwaiting", "open", "optimum", "pattern", "ping"
         , "placeholder", "preload", "pubdate", "radiogroup", "readonly"
         , "rel", "required", "reversed", "rows", "rowspan", "sandbox", "scope"
+        , "role"
         , "scoped", "seamless", "selected", "shape", "size", "sizes", "span"
         , "spellcheck", "src", "srcdoc", "start", "step", "style", "subject"
         , "summary", "tabindex", "target", "title", "type", "usemap", "value"
