@@ -26,7 +26,7 @@ attributeElements =
   [ "aria-hidden", "color"
   , "property"
   , "language"
-  , "align"
+  , "align", "role"
   ]
 -- hack for svg
   ++ svgAttrs ++ svgCamelCaseAttrs
@@ -70,6 +70,11 @@ language_ = makeAttribute "language"
 -- This attribute is obsolete!
 align_ :: Text -> Attribute
 align_ = makeAttribute "align"
+
+-- | The @role@ attribute
+role_ :: Text -> Attribute
+role_ = makeAttribute "role"
+
 
 
 ------------ Svg attributes, remove when fix !!!! -----
