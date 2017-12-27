@@ -30,8 +30,11 @@ attributeElements =
   , "aria-label", "autocapitalize"
   , "aria-expanded", "aria-haspopup"
   , "aria-labelledby", "aria-describedby"
+  , "border", "cellpadding", "cellspacing"
+  , "frameborder"
   , "property"
   , "language"
+  , "scrolling"
   , "align"
   , "itemscope"
   , "itemtype"
@@ -104,9 +107,30 @@ ariaDescribedby_ = makeAttribute "aria-describedby"
 autocapitalize_ :: Text -> Attribute
 autocapitalize_ = makeAttribute "autocapitalize"
 
+-- | The @border@ attribute
+-- This attribute is obsolete!
+border_ :: Text -> Attribute
+border_ = makeAttribute "border"
+
+-- | The @cellpadding@ attribute
+-- This attribute is obsolete!
+cellpadding_ :: Text -> Attribute
+cellpadding_ = makeAttribute "cellpadding"
+
+-- | The @cellspacing@ attribute
+-- This attribute is obsolete!
+cellspacing_ :: Text -> Attribute
+cellspacing_ = makeAttribute "cellspacing"
+
+
 -- | The @color@ attribute
 color_ :: Text -> Attribute
 color_ = makeAttribute "color"
+
+-- | The @frameborder@ attribute
+-- This attribute is obsolete!
+frameborder_ :: Text -> Attribute
+frameborder_ = makeAttribute "frameborder"
 
 -- | The @itemscope@ attribute
 itemscope_ :: Text -> Attribute
@@ -119,6 +143,10 @@ itemtype_ = makeAttribute "itemtype"
 -- | The @property@ attribute
 property_ :: Text -> Attribute
 property_ = makeAttribute "property"
+
+-- | The @scrolling@ attribute
+scrolling_ :: Text -> Attribute
+scrolling_ = makeAttribute "scrolling"
 
 -- | The @language@ attribute, deprecated
 language_ :: Text -> Attribute
