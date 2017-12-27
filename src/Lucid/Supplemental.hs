@@ -34,6 +34,7 @@ attributeElements =
   , "border", "cellpadding", "cellspacing"
   , "frameborder"
   , "allowtransparency", "allowfullscreen"
+  , "fb-xfbml-state", "fb-iframe-plugin-query"
   , "property"
   , "language"
   , "scrolling"
@@ -146,6 +147,13 @@ allowtransparency_ = makeAttribute "allowtransparency"
 allowfullscreen_ :: Text -> Attribute
 allowfullscreen_ = makeAttribute "allowfullscreen"
 
+-- | The @fb-xfbml-state@ attribute
+fbXfbmlState_ :: Text -> Attribute
+fbXfbmlState_ = makeAttribute "fb-xfbml-state"
+
+-- | The @fb-iframe-plugin-query@ attribute
+fbIframePluginQuery_ :: Text -> Attribute
+fbIframePluginQuery_ = makeAttribute "fb-iframe-plugin-query"
 
 -- | The @itemscope@ attribute
 itemscope_ :: Text -> Attribute
