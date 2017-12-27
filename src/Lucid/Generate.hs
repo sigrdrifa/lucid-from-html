@@ -218,11 +218,14 @@ getImports =
 --
 getIOImports :: [String]
 getIOImports = 
-    [ "import System.IO (stdout)"
+    [ "import System.IO (stdout, hSetEncoding, utf8)"
     , "import Data.Text.Lazy.IO as L"
     , ""
     , "main :: IO ()"
-    , "main = L.hPutStr stdout (renderText template1)"
+    , "main = do"
+    , "  hSetEncoding stdout utf8"
+    , "  L.hPutStr stdout (renderText template1)"
+    , ""
     ]
 
 

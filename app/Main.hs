@@ -19,6 +19,8 @@ import Lucid.Combinators
 --
 main :: IO ()
 main = do
+    hSetEncoding stdin utf8
+    hSetEncoding stdout utf8
     args <- getOpt Permute options <$> getArgs
     let (o, n, errs) = args
     case () of
@@ -37,11 +39,14 @@ main = do
         lucidFromHtml html5S opts "template1"
 
     -- Handle all files
-    main' opts files = forM_ (zip files [1 .. (length files)]) $ \(file, num) -> do
-        body <- readFile file
-        putStrLn $ "-- Template for file: " ++ file
-        putStrLn $ lucidFromHtml html5S opts
-                                 ("template" ++ (show num)) body
+    main' opts files = forM_ (zip files [1 .. (length files)]) $ \(file, num) -> 
+            withFile file ReadMode (\handle -> do
+              hSetEncoding handle utf8
+              body <- hGetContents handle
+              putStrLn $ "-- Template for file: " ++ file
+              putStrLn $ lucidFromHtml html5S opts
+                                      ("template" ++ (show num)) body
+            )                              
 
     -- Print imports if needed
     imports' opts = when (standalone' opts) $
