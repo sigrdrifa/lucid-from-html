@@ -21,6 +21,7 @@ leafElements :: [String]
 leafElements = 
   [ "relative-time", "time-until"
   , "time-ago", "local-time"
+  , "g:plusone"
   ]
 
 -- | attributes
@@ -49,6 +50,15 @@ attributeElements =
 tt_ :: Term arg result => arg -> result
 tt_ = term "tt"
 
+
+-- here is hack for <svg> tag
+-- | @\<svg\>@ tag.
+svg_ :: TermRaw arg result => arg -> result
+svg_ = termRaw "svg"
+
+------ Leaf elements -----------------------
+-------------------------------------------
+
 -- | @\<relative-time\>@ tag, from GitHub
 relativeTime_ :: Monad m => [Attribute] -> HtmlT m ()
 relativeTime_ = with (makeElementNoEnd "relative-time")
@@ -65,15 +75,10 @@ timeAgo_ = with (makeElementNoEnd "time-ago")
 localTime_ :: Monad m => [Attribute] -> HtmlT m ()
 localTime_ = with (makeElementNoEnd "local-time")
 
+-- | @g:plusone@ element
+gPlusone_ :: Monad m => [Attribute] -> HtmlT m ()
+gPlusone_ = with (makeElementNoEnd "g:plusone")
 
-
--- here is hack for <svg> tag
--- | @\<svg\>@ tag.
-svg_ :: TermRaw arg result => arg -> result
-svg_ = termRaw "svg"
-
------- Leaf elements -----------------------
--------------------------------------------
 
 
 ------ Attributes --------------------------
