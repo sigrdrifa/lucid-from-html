@@ -31,12 +31,14 @@ attributeElements =
   , "aria-label", "autocapitalize"
   , "aria-expanded", "aria-haspopup"
   , "aria-labelledby", "aria-describedby"
+  , "as"
   , "border", "cellpadding", "cellspacing"
   , "frameborder"
   , "hspace","vspace","marginheight","marginwidth"
   , "allowtransparency", "allowfullscreen"
   , "clear"
   , "fb-xfbml-state", "fb-iframe-plugin-query"
+  , "gapi_processed"
   , "ng-non-bindable"
   , "property"
   , "language"
@@ -113,6 +115,10 @@ ariaLabelledby_ = makeAttribute "aria-labelledby"
 ariaDescribedby_ :: Text -> Attribute
 ariaDescribedby_ = makeAttribute "aria-describedby"
 
+-- | The @as@ attribute
+as_ :: Text -> Attribute
+as_ = makeAttribute "as"
+
 -- | The @autocapitalize@ attribute
 autocapitalize_ :: Text -> Attribute
 autocapitalize_ = makeAttribute "autocapitalize"
@@ -185,6 +191,10 @@ fbXfbmlState_ = makeAttribute "fb-xfbml-state"
 -- | The @fb-iframe-plugin-query@ attribute
 fbIframePluginQuery_ :: Text -> Attribute
 fbIframePluginQuery_ = makeAttribute "fb-iframe-plugin-query"
+
+-- | The @gapi_processed@ attribute
+gapi_processed_ :: Text -> Attribute
+gapi_processed_ = makeAttribute "gapi_processed"
 
 -- | The @itemscope@ attribute
 itemscope_ :: Text -> Attribute
