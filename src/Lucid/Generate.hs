@@ -180,6 +180,7 @@ fromHtml variant opts (Parent tag attrs inner) =
                  in case k' of 
                         "autofocus_" -> k'
                         "checked_" -> k'
+                        "ngNonBindable_" -> k'
                         _ -> k' ++ " " ++ show v
         False -> case stripPrefix "data-" k of
             Just prefix -> "data_" ++ " "

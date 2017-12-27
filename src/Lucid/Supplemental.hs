@@ -33,8 +33,11 @@ attributeElements =
   , "aria-labelledby", "aria-describedby"
   , "border", "cellpadding", "cellspacing"
   , "frameborder"
+  , "hspace","vspace","marginheight","marginwidth"
   , "allowtransparency", "allowfullscreen"
+  , "clear"
   , "fb-xfbml-state", "fb-iframe-plugin-query"
+  , "ng-non-bindable"
   , "property"
   , "language"
   , "scrolling"
@@ -115,12 +118,12 @@ autocapitalize_ :: Text -> Attribute
 autocapitalize_ = makeAttribute "autocapitalize"
 
 -- | The @border@ attribute
--- This attribute is obsolete!
+-- This attribute is deprecated!
 border_ :: Text -> Attribute
 border_ = makeAttribute "border"
 
 -- | The @cellpadding@ attribute
--- This attribute is obsolete!
+-- This attribute is deprecated!
 cellpadding_ :: Text -> Attribute
 cellpadding_ = makeAttribute "cellpadding"
 
@@ -129,13 +132,36 @@ cellpadding_ = makeAttribute "cellpadding"
 cellspacing_ :: Text -> Attribute
 cellspacing_ = makeAttribute "cellspacing"
 
+-- | The @ng-non-bindable@ attribute
+ngNonBindable_ :: Attribute
+ngNonBindable_ = makeAttribute "ng-non-bindable" mempty
+
+-- | The @hspace@ attribute
+-- This attribute is deprecated!
+hspace_ :: Text -> Attribute
+hspace_ = makeAttribute "hspace"
+
+-- | The @vspace@ attribute
+-- This attribute is deprecated!
+vspace_ :: Text -> Attribute
+vspace_ = makeAttribute "vspace"
+
+-- | The @marginheight@ attribute
+-- This attribute is deprecated!
+marginheight_ :: Text -> Attribute
+marginheight_ = makeAttribute "marginheight"
+
+-- | The @marginwidth@ attribute
+-- This attribute is deprecated!
+marginwidth_ :: Text -> Attribute
+marginwidth_ = makeAttribute "marginwidth"
 
 -- | The @color@ attribute
 color_ :: Text -> Attribute
 color_ = makeAttribute "color"
 
 -- | The @frameborder@ attribute
--- This attribute is obsolete!
+-- This attribute is deprecated!
 frameborder_ :: Text -> Attribute
 frameborder_ = makeAttribute "frameborder"
 
@@ -146,6 +172,11 @@ allowtransparency_ = makeAttribute "allowtransparency"
 -- | The @allowfullscreen@ attribute
 allowfullscreen_ :: Text -> Attribute
 allowfullscreen_ = makeAttribute "allowfullscreen"
+
+-- | The @clear@ attribute
+-- This attribute is deprecated!
+clear_ :: Text -> Attribute
+clear_ = makeAttribute "clear"
 
 -- | The @fb-xfbml-state@ attribute
 fbXfbmlState_ :: Text -> Attribute
