@@ -175,7 +175,7 @@ svgCamelCaseAttrs = ["viewBox"]
 -- >>> genSvgAttribs ["xmlns:dc", "xmlns:sodipodi"]
 
 import Lucid.Sanitize
-
+:{
 genAttr :: [String] -> IO ()
 genAttr = 
   putStr . unlines . map unlines 
@@ -197,5 +197,6 @@ genSvgAttribs =
   . map (\str -> ["-- | The @" ++ str ++ "@ attribute for svg."
                  , sanitize str ++ " :: Text -> Attribute"
                  , sanitize str ++ " = makeAttribute " ++ show str])
+:}
 
 -}
