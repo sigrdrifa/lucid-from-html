@@ -33,6 +33,7 @@ attributeElements =
   , "aria-labelledby", "aria-describedby"
   , "border", "cellpadding", "cellspacing"
   , "frameborder"
+  , "allowtransparency", "allowfullscreen"
   , "property"
   , "language"
   , "scrolling"
@@ -136,6 +137,15 @@ color_ = makeAttribute "color"
 -- This attribute is obsolete!
 frameborder_ :: Text -> Attribute
 frameborder_ = makeAttribute "frameborder"
+
+-- | The @allowtransparency@ attribute
+allowtransparency_ :: Text -> Attribute
+allowtransparency_ = makeAttribute "allowtransparency"
+
+-- | The @allowfullscreen@ attribute
+allowfullscreen_ :: Text -> Attribute
+allowfullscreen_ = makeAttribute "allowfullscreen"
+
 
 -- | The @itemscope@ attribute
 itemscope_ :: Text -> Attribute
