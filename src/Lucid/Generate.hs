@@ -257,7 +257,7 @@ lucidFromHtml variant opts name =
 -- | Indent block of code.
 --
 indent :: [String] -> [String]
-indent = map ("    " ++)
+indent = map ("  " ++)
 
 -- | The options record passed to 'lucidFromHtml'
 --
