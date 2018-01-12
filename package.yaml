@@ -1,5 +1,5 @@
 name: lucid-from-html
-version: '0.2.0'
+version: '0.7.0'
 synopsis: Tool to convert HTML to Lucid code.
 description: ! 'Tool that converts HTML files to Haskell code, ready to be
 
@@ -14,6 +14,9 @@ dependencies:
 - containers >=0.3
 - directory >=1.0
 - filepath >=1.1
+- tagsoup >=0.14.1
+- text >= 0.11
+- lucid >= 2.9.9
 extra-source-files:
 - CHANGELOG.md
 - README.md
@@ -23,10 +26,9 @@ library:
   - Lucid.Generate
   - Lucid.Sanitize
   - Lucid.Combinators
+  - Lucid.Supplemental
   source-dirs:
   - src
-  dependencies:
-  - tagsoup >=0.10
 executables:
   lucid-from-html:
     source-dirs:
@@ -34,4 +36,14 @@ executables:
     main: Main.hs
     dependencies:
     - lucid-from-html
+tests:
+  test:
+    main: test.hs
+    source-dirs:
+      - tests
+    dependencies:
+      - tasty-golden >= 2.3.1.1
+      - bytestring >=0.10
+      - tasty >=0.8
+      - lucid-from-html
 stability: Experimental
