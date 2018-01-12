@@ -18,9 +18,15 @@ To convert *filename*.html to lucid text, run
 
     > lucid-from-html -t -s filename.html > filename.hs
 
-The options here: _Do not trim ends of the strings from the space-symbols_ 
-and _Create standalone code, ready to compile_
+The options here: 
+
+* -t &nbsp; _do not trim the ends of the strings from the whitespace characters_ 
+* -s &nbsp; _create a standalone code, ready to compile_
 
 To see all options, run
 
     > lucid-from-html --help
+    
+If you successfully got _filename.hs_ you can generate html back again by
+
+    > runhaskell filename.hs > filename-out.html
