@@ -20,7 +20,7 @@ To convert *filename*.html to lucid text, run
 
 The options here: 
 
-* -t &nbsp; _do not trim the ends of the strings from the whitespace characters_ 
+* -t &nbsp; _do not trim whitespace characters from the ends of the strings_ 
 * -s &nbsp; _create a standalone code, ready to compile_
 
 To see all options, run
