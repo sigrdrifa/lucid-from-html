@@ -30,7 +30,8 @@ main = do
                                 exitFailure
         | otherwise       -> let i = ignore' o
                                  t = trim' o
-                                 opts = Options i t
+                                 w = indentWidth' o
+                                 opts = Options i t w
                              in do imports' o
                                    main' opts n
   where
@@ -46,7 +47,7 @@ main = do
               putStrLn $ "-- Template for file: " ++ file
               putStrLn $ lucidFromHtml html5S opts
                                       ("template" ++ (show num)) body
-            )                              
+            )
 
     -- Print imports if needed
     imports' opts = when (standalone' opts) $
@@ -61,6 +62,12 @@ main = do
 
     -- Should we trim whitespace from text?
     trim' opts = ArgNoTrimText `elem` opts
+
+    indentWidth' opts = case opts of
+      [] -> 2
+      x:xs -> case x of
+        ArgIndentWidth w -> w
+        _ -> indentWidth' xs
 
 
 -- | Help information.
@@ -94,7 +101,8 @@ data Arg = ArgStandalone
          | ArgIgnoreErrors
          | ArgNoTrimText
          | ArgHelp
-         deriving (Show, Eq)
+         | ArgIndentWidth Int
+         deriving (Show, Eq, Read)
 
 -- | A description of the options
 --
@@ -103,6 +111,6 @@ options =
     [ Option "s" ["standalone"] (NoArg ArgStandalone) "Produce standalone code"
     , Option "e" ["ignore-errors"] (NoArg ArgIgnoreErrors) "Ignore most errors"
     , Option "t" ["no-trim-text"]  (NoArg ArgNoTrimText) "Do not trim text"
+    , Option "w" ["indent-width"]  (ReqArg (ArgIndentWidth . read) "WIDTH") "Number of spaces to use for indentation"
     , Option "h" ["help"] (NoArg ArgHelp) "Show help"
     ]
-

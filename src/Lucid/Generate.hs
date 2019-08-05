@@ -150,7 +150,7 @@ fromHtml variant opts (Parent tag attrs inner) =
                 then [combinator ++
                         (if null attrs then " " else " $ ") ++ "\"\""]
                 else (combinator ++ " $ do") :
-                        indent (fromHtml variant opts inner)
+                        indent opts (fromHtml variant opts inner)
             -- We join non-block parents for better readability.
             x -> let ls = fromHtml variant opts x
                      apply = if dropApply x then " " else " $ "
@@ -240,14 +240,14 @@ lucidFromHtml :: HtmlVariant  -- ^ Variant to use
 lucidFromHtml variant opts name =
     unlines . addSignature . fromHtml variant opts
             . minimizeBlocks
-            -- . removeEmptyText   -- causes glueing of words, see bug #13 
+            . removeEmptyText   -- causes glueing of words, see bug #13 
             . fst . makeTree variant (ignore_ opts) []
             -- . canonicalizeTags
             . parseTagsOptions parseOptions { optTagPosition = True}
   where
     addSignature body = [ name ++ " :: Html ()"
                         , name ++ " = do"
-                        ] ++ indent body
+                        ] ++ indent opts body
     -- popts :: ParseOptions String
     -- popts = (parseOptionsEntities (const Nothing)){ optTagPosition = True }
           -- (parseOptions :: ParseOptions String){ optTagPosition = True ,
@@ -256,14 +256,15 @@ lucidFromHtml variant opts name =
 
 -- | Indent block of code.
 --
-indent :: [String] -> [String]
-indent = map ("  " ++)
+indent :: Options -> [String] -> [String]
+indent opts = map ((replicate (indentWidth_ opts) ' ') ++)
 
 -- | The options record passed to 'lucidFromHtml'
 --
 data Options = Options
-             { ignore_     :: Bool -- ^ ignore errors
-             , noTrimText_ :: Bool -- ^ do not trim text
+             { ignore_      :: Bool -- ^ ignore errors
+             , noTrimText_  :: Bool -- ^ do not trim text
+             , indentWidth_ :: Int  -- ^ how many spaces to indent with
              }
   deriving (Show)
 
