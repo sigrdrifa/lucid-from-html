@@ -2,17 +2,20 @@ This repository hosts the code to the `lucid-from-html` tool, derived from [@dba
 
 Please report any issues (including examples of html files that don’t parse correctly) at the [issue tracker](https://github.com/alogic0/lucid-from-html/issues).
 
-# Install
+# Install using cabal
 
 1.  Clone the repository.
 
-2.  Change to the directory of the repository.
+2.  Install **hpack** tool. 
 
-3.  Run
+3.  Change to the directory of the repository.
 
+4.  Run
+
+        > hpack
         > cabal install
 
-# Run
+# Usage
 
 To convert *filename*.html to lucid text, run
 
