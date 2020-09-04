@@ -6,7 +6,9 @@ Please report any issues (including examples of html files that don’t parse co
 
 1.  Clone the repository.
 
-2.  Install **hpack** tool. 
+2.  Install **hpack** tool unless it's already installed.
+
+        > cabal install hpack
 
 3.  Change to the directory of the repository.
 
