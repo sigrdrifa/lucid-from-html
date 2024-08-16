@@ -246,7 +246,7 @@ html5 = HtmlVariant
         , "hgroup", "html", "i", "iframe", "ins", "kbd", "label"
         , "legend", "li", "main", "map", "mark", "menu", "meter", "nav"
         , "noscript", "object", "ol", "optgroup", "option", "output", "p"
-        , "pre", "progress", "q", "rp", "rt", "ruby", "samp", "script"
+        , "pre", "path", "progress", "q", "rp", "rt", "ruby", "samp", "script"
         , "section", "select", "small", "span", "strong", "style", "sub"
         , "summary", "sup", "table", "tbody", "td", "textarea", "tfoot", "th"
         , "thead", "time", "title", "tr", "ul", "var", "video"
@@ -257,11 +257,11 @@ html5 = HtmlVariant
         , "link", "menuitem", "meta", "param", "source", "track", "wbr"
         ]
     , attributes =
-        [ "accept", "accept-charset", "accesskey", "action", "alt", "async"
+        [ "accept", "accept-charset", "accesskey", "aria-modal", "action", "alt", "async"
         , "autocomplete", "autofocus", "autoplay", "challenge", "charset"
         , "checked", "cite", "class", "cols", "colspan", "content"
-        , "contenteditable", "contextmenu", "controls", "coords", "crossorigin", "data"
-        , "datetime", "defer", "dir", "disabled", "draggable", "enctype", "for"
+        , "contenteditable", "contextmenu", "controls", "coords", "crossorigin", "d", "data"
+        , "datetime", "defer", "dir", "disabled", "draggable", "enctype", "for", "fill"
         , "form", "formaction", "formenctype", "formmethod", "formnovalidate"
         , "formtarget", "headers", "height", "hidden", "high", "href"
         , "hreflang", "http-equiv", "icon", "id", "ismap", "item", "itemprop"
@@ -281,10 +281,12 @@ html5 = HtmlVariant
         , "onseeked", "onseeking", "onselect", "onstalled", "onstorage"
         , "onsubmit", "onsuspend", "ontimeupdate", "onundo", "onunload"
         , "onvolumechange", "onwaiting", "open", "optimum", "pattern", "ping"
-        , "placeholder", "preload", "pubdate", "radiogroup", "readonly"
+        , "placeholder", "preload", "path", "pubdate", "radiogroup", "readonly"
         , "rel", "required", "reversed", "rows", "rowspan", "sandbox", "scope"
         , "role"
-        , "scoped", "seamless", "selected", "shape", "size", "sizes", "span"
+        , "scoped", "seamless", "selected", "shape", "stroke", "stroke-width",
+        "stroke-linecap", "stroke-linejoin",
+        "size", "sizes", "span"
         , "spellcheck", "src", "srcdoc", "start", "step", "style", "subject"
         , "summary", "tabindex", "target", "title", "type", "usemap", "value"
         , "width", "wrap", "xmlns"
