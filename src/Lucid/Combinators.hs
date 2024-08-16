@@ -257,11 +257,12 @@ html5 = HtmlVariant
         , "link", "menuitem", "meta", "param", "source", "track", "wbr"
         ]
     , attributes =
-        [ "accept", "accept-charset", "accesskey", "aria-modal", "action", "alt", "async"
+        [ "accept", "accept-charset", "accesskey", "aria-modal", "aria-controls", "action", "aria-orientation", "alt", "async"
         , "autocomplete", "autofocus", "autoplay", "challenge", "charset"
         , "checked", "cite", "class", "cols", "colspan", "content"
-        , "contenteditable", "contextmenu", "controls", "coords", "crossorigin", "d", "data"
+        , "contenteditable", "contextmenu","clip-rule", "controls", "coords", "crossorigin", "d", "data"
         , "datetime", "defer", "dir", "disabled", "draggable", "enctype", "for", "fill"
+        , "fill-rule"
         , "form", "formaction", "formenctype", "formmethod", "formnovalidate"
         , "formtarget", "headers", "height", "hidden", "high", "href"
         , "hreflang", "http-equiv", "icon", "id", "ismap", "item", "itemprop"
